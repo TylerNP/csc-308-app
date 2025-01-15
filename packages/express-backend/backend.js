@@ -80,6 +80,23 @@ app.post('/users', (req, res) => {
     res.send();
 });
 
+const deleteUser = (id) => {
+    const match = users.users_list.indexOf(id);
+    users.users_list = users.users_list.filter(
+        (user) => user.id !== id
+    );
+    return match;
+}
+
+app.delete('/users/:id', (req, res) => {
+    const found = deleteUser(req.params.id);
+    if (found === -1) {
+        res.status(404);
+    } else {
+        res.status(200);
+    }
+});
+
 app.listen(port, () => {
     console.log(
         `Example app listening at http://localhost:${port}`
