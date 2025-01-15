@@ -63,10 +63,23 @@ app.get('/users/:id', (req, res) => {
     const id = req.params.id;
     let result = findUsersById(id);
     if (result == undefined) {
-        res.status('404').send('Resource Not Found');
+        res.status(404).send('Resource Not Found');
     } else {
-        res.status('200').send(result);
+        res.status(200).send(result);
     }
+});
+
+const findUsersByNameAndJob = (name, job) => {
+    let matches = users.users_list.filter((user) => user.name === name);
+    return matches.filter((user) => user.job === job);
+}
+
+app.get('/user/search', (req, res) => {
+    console.log(req.query)
+    const name = req.query.name;
+    const job = req.query.job;
+    const result = findUsersByNameAndJob(name,job);
+    res.status(200).send(result);
 });
 
 const addUser = (user) => {
@@ -89,11 +102,11 @@ const deleteUser = (id) => {
 }
 
 app.delete('/users/:id', (req, res) => {
-    const found = deleteUser(req.params.id);
+    let found = deleteUser(req.params.id);
     if (found === -1) {
-        res.status(404);
+        res.status('410');
     } else {
-        res.status(200);
+        res.status('200');
     }
 });
 
