@@ -39,7 +39,13 @@ function MyApp() {
 
     function updateList(person) {
         postUser(person)
-            .then(()=>setCharacters([...characters,person]))
+            .then((res) => {
+                if (res.status == 201) {
+                    setCharacters([...characters,person]);
+                } else {
+                    throw new Error("No content added");
+                }
+            })
             .catch((error) => { console.log(error); });
     }
 
