@@ -44,15 +44,25 @@ const findUsersByName = ((searchName) => {
     ); 
 });
 
+const findUsersByNameAndJob = (name, job) => {
+    return users.users_list.filter(
+        (user) => user.name === name && user.job === job
+    );
+}
+
 app.get('/users', (req, res) => {
     const searchName = req.query.name;
-    if (searchName == undefined) {
-        res.send(users);
-    } else {
+    const job = req.query.job;
+    if (searchName !== undefined && job !== undefined) {
+        const result = findUsersByNameAndJob(searchName,job);
+        res.status(200).send(result);
+    } else if (searchName !== undefined) {
         // Find users
         let names = findUsersByName(searchName);
         names = { user_list : names };
-        res.send(names);
+        res.status(200).send(names);
+    } else {
+        res.send(users);
     }
 });
 
@@ -67,19 +77,6 @@ app.get('/users/:id', (req, res) => {
     } else {
         res.status(200).send(result);
     }
-});
-
-const findUsersByNameAndJob = (name, job) => {
-    let matches = users.users_list.filter((user) => user.name === name);
-    return matches.filter((user) => user.job === job);
-}
-
-app.get('/user/search', (req, res) => {
-    console.log(req.query)
-    const name = req.query.name;
-    const job = req.query.job;
-    const result = findUsersByNameAndJob(name,job);
-    res.status(200).send(result);
 });
 
 const addUser = (user) => {
