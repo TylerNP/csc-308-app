@@ -83,7 +83,7 @@ app.get('/users/:id', (req, res) => {
 });
 
 const addUser = (user) => {
-    user["id"] = Math.trunc(Math.random()*100);
+    user["id"] = Math.trunc(Math.random()*100).toString();
     users.users_list.push(user);
     return user;
 };

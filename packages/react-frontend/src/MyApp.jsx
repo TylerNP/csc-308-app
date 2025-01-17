@@ -18,7 +18,7 @@ function MyApp() {
             .catch((error) => { console.log(error); });
     }, [] );
 
-    function removeCharacterIndex(index) {
+    function removeCharacterByIndex(index) {
         const promise = fetch(`http://localhost:8000/users/${characters[index].id}`, {
                 method: "DELETE",
             }
@@ -28,7 +28,7 @@ function MyApp() {
     }
 
     function removeOneCharacter(index) {
-        removeCharacterIndex(index)
+        removeCharacterByIndex(index)
             .then((res) => {
                 if (res.status == 204) {
                     const updated = characters.filter((_, i) => {
@@ -65,7 +65,7 @@ function MyApp() {
                 }
             })
             .then((json) => {
-                setCharacters([...characters,person]);
+                setCharacters([...characters,json]);
             })
             .catch((error) => { console.log(error); });
     }
