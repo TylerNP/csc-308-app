@@ -18,11 +18,29 @@ function MyApp() {
             .catch((error) => { console.log(error); });
     }, [] );
 
+    function removeCharacterIndex(index) {
+        const promise = fetch(`http://localhost:8000/users/${characters[index].id}`, {
+                method: "DELETE",
+            }
+        );
+
+        return promise;
+    }
+
     function removeOneCharacter(index) {
-        const updated = characters.filter((character, i) => {
-                return i !== index;
-        });
-        setCharacters(updated);
+        removeCharacterIndex(index)
+            .then((res) => {
+                if (res.status == 204) {
+                    const updated = characters.filter((_, i) => {
+                        return i !== index;
+                    });
+                    setCharacters(updated);
+                } else {
+                    throw new Error("No Resources Found");
+                }
+            })
+            .catch((error) => { console.log(error); });
+        
     }
 
     function postUser(person) {
@@ -41,10 +59,13 @@ function MyApp() {
         postUser(person)
             .then((res) => {
                 if (res.status == 201) {
-                    setCharacters([...characters,person]);
+                    return res.json();
                 } else {
                     throw new Error("No content added");
                 }
+            })
+            .then((json) => {
+                setCharacters([...characters,person]);
             })
             .catch((error) => { console.log(error); });
     }

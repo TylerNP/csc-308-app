@@ -83,30 +83,32 @@ app.get('/users/:id', (req, res) => {
 });
 
 const addUser = (user) => {
+    user["id"] = Math.trunc(Math.random()*100);
     users.users_list.push(user);
     return user;
 };
 
 app.post('/users', (req, res) => {
     const userToAdd = req.body;
-    addUser(userToAdd);
-    res.send();
+    const addedUser = addUser(userToAdd);
+    res.status(201).send(addedUser);
 });
 
 const deleteUser = (id) => {
-    const match = users.users_list.indexOf(id);
+    const oldLength = users.users_list.length;
     users.users_list = users.users_list.filter(
         (user) => user.id !== id
     );
-    return match;
+
+    return (users.users_list).length < oldLength;
 }
 
 app.delete('/users/:id', (req, res) => {
     let found = deleteUser(req.params.id);
-    if (found === -1) {
-        res.status('410');
+    if (found === false) {
+        res.status(404).send();
     } else {
-        res.status('200');
+        res.status(204).send();
     }
 });
 
