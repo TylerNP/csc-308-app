@@ -101,3 +101,51 @@ test('Test div - with -1 / Infinity', () => {
     const result = myFunctions.div(-1,Infinity);
     expect(result).toBe(target);
 });
+
+test('Test containsNumbers - with "" ', () => {
+    const target = false;
+    const result = myFunctions.containsNumbers("");
+    expect(result).toBe(target);
+});
+
+test('Test containsNumbers - with "1.1.1.1.1.1"', () => {
+    const target = true;
+    const result = myFunctions.containsNumbers("1.1.1.1.1.1");
+    expect(result).toBe(target);
+});
+
+test('Test containsNumbers - with "abcde" ', () => {
+    const target = false;
+    const result = myFunctions.containsNumbers("abcde");
+    expect(result).toBe(target);
+});
+
+test('Test containsNumbers - with ".1"', () => {
+    const target = true;
+    const result = myFunctions.containsNumbers(".1");
+    expect(result).toBe(target);
+});
+
+test('Test containsNumbers - with "-1"', () => {
+    const target = true;
+    const result = myFunctions.containsNumbers("-1");
+    expect(result).toBe(target);
+});
+
+test('Test containsNumbers - with " "', () => {
+    const target = false;
+    const result = myFunctions.containsNumbers(" ");
+    expect(result).toBe(target);
+});
+
+test('Test containsNumbers - with "tab"', () => {
+    const target = false;
+    const result = myFunctions.containsNumbers("\t");
+    expect(result).toBe(target);
+});
+
+test('Test containsNumbers - with "newline"', () => {
+    const target = false;
+    const result = myFunctions.containsNumbers("\n");
+    expect(result).toBe(target);
+});
