@@ -19,7 +19,7 @@ function MyApp() {
     }, [] );
 
     function removeCharacterByIndex(index) {
-        const promise = fetch(`http://localhost:8000/users/${characters[index].id}`, {
+        const promise = fetch(`http://localhost:8000/users/${characters[index]._id}`, {
                 method: "DELETE",
             }
         );
